@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "frontend.user_data_471e7c96ea894f5eb3dc63aa9fdcbd48",
+  "data": {
+    "language": {
+      "language": "en",
+      "number_format": "language",
+      "time_format": "language",
+      "date_format": "language",
+      "time_zone": "local",
+      "first_weekday": "language"
+    },
+    "core": {
+      "showAdvanced": true
+    }
+  }
+}

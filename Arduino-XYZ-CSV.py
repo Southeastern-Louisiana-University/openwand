@@ -2,7 +2,7 @@ import serial
 import csv
 
 # Set up connection
-port = 'COM3'  # Replace with your Arduino's port. If conected by bluetooth it should be COM5 or COM6, check your device manager ports if your unsure
+port = 'COM7'  # Replace with your Arduino's port. If conected by bluetooth it should be COM5 or COM6, check your device manager ports if your unsure
 baud_rate = 9600
 ser = serial.Serial(port, baud_rate)
 print(f"Connected to Arduino on {port}")

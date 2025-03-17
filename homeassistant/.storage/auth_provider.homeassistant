@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "auth_provider.homeassistant",
+  "data": {
+    "users": [
+      {
+        "username": "lillaundry",
+        "password": "JDJiJDEyJHhkQ25Ec3Q2NVhoMFBndlpnTUdsZ092LlB6WVJjNHJzbG1IVFl6YTZsY1NubzVjTFRGSzdH"
+      },
+      {
+        "username": "mqtt",
+        "password": "JDJiJDEyJHN3V0FzdEREQS8xdEphUEFUU1JzcmVOaFpReFJzZWJmTDI5ckhrVW51WVptY2kyOTFXUkE2"
+      }
+    ]
+  }
+}

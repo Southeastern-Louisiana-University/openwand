@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "minor_version": 1,
+  "key": "person",
+  "data": {
+    "items": [
+      {
+        "id": "seth_landry",
+        "name": "seth landry",
+        "user_id": "471e7c96ea894f5eb3dc63aa9fdcbd48",
+        "device_trackers": []
+      }
+    ]
+  }
+}
