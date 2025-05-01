@@ -25,6 +25,13 @@
             "should_expose": false
           }
         }
+      },
+      "automation.trigger_device_based_on_movement": {
+        "assistants": {
+          "conversation": {
+            "should_expose": false
+          }
+        }
       }
     }
   }

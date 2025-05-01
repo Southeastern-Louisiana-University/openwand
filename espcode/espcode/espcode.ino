@@ -1,135 +1,103 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
-#include <BLEClient.h>
 #include <BLEScan.h>
+#include <BLEClient.h>
 #include <BLEAdvertisedDevice.h>
 
+BLEScan* pBLEScan;
+BLEAdvertisedDevice* targetDevice = nullptr;
+BLEClient* pClient = nullptr;
+BLERemoteCharacteristic* pRemoteCharacteristic = nullptr;
 
-static BLEUUID serviceUUID("19B10000-E8F2-537E-4F6C-D104768A1214");
-static BLEUUID charUUID("19B10001-E8F2-537E-4F6C-D104768A1214");
+std::vector<float> accelData, gyroData, magData;
+bool connected = false;
 
+static void notifyCallback(
+  BLERemoteCharacteristic* pBLERemoteCharacteristic,
+  uint8_t* pData, size_t length, bool isNotify
+) {
+  if (length < 13) return;
 
-BLERemoteCharacteristic* pRemoteCharacteristic;
-BLEAddress* pServerAddress;
-BLEClient* pClient;
-bool doConnect = false, connected = false;
+  char header = pData[0];
+  float x, y, z;
+  memcpy(&x, pData + 1, 4);
+  memcpy(&y, pData + 5, 4);
+  memcpy(&z, pData + 9, 4);
 
+  if (header == 'A') accelData = {x, y, z};
+  else if (header == 'G') gyroData = {x, y, z};
+  else if (header == 'M') magData = {x, y, z};
 
-// Buffers to store parts
-float accel[3] = {0}, gyro[3] = {0};
-bool accelReceived = false, gyroReceived = false;
-
-
-// Helper to print floats
-void printVector(const char* label, float* vec) {
-  Serial.print(label);
-  Serial.print(": ");
-  for (int i = 0; i < 3; i++) {
-    Serial.print(vec[i], 3);
-    Serial.print(i < 2 ? ", " : "\n");
+  if (!accelData.empty() && !gyroData.empty() && !magData.empty()) {
+    Serial.println("IMU Data:");
+    Serial.printf("Accel: %.2f, %.2f, %.2f\n", accelData[0], accelData[1], accelData[2]);
+    Serial.printf("Gyro : %.2f, %.2f, %.2f\n", gyroData[0], gyroData[1], gyroData[2]);
+    Serial.printf("Mag  : %.2f, %.2f, %.2f\n", magData[0], magData[1], magData[2]);
+    accelData.clear();
+    gyroData.clear();
+    magData.clear();
   }
 }
-
-
-void notifyCallback(BLERemoteCharacteristic* pChar, uint8_t* data, size_t len, bool isNotify) {
-  if (len < 13) {
-    Serial.printf("Incomplete packet (len=%d)\n", len);
-    return;
-  }
-
-
-  char type = (char)data[0];
-  float values[3];
-  memcpy(&values[0], &data[1], 12);
-
-
-  if (type == 'A') {
-    memcpy(accel, values, 3 * sizeof(float));
-    accelReceived = true;
-  } else if (type == 'G') {
-    memcpy(gyro, values, 3 * sizeof(float));
-    gyroReceived = true;
-  } else {
-    Serial.println("Unknown packet type");
-    return;
-  }
-
-
-  // Print once both packets are in
-  if (accelReceived && gyroReceived) {
-    Serial.println("Full IMU frame received:");
-    printVector("Accel", accel);
-    printVector("Gyro", gyro);
-    accelReceived = gyroReceived = false;
-  }
-}
-
-
-bool connectToServer(BLEAddress address) {
-  Serial.print("Connecting to ");
-  Serial.println(address.toString().c_str());
-
-
-  pClient = BLEDevice::createClient();
-  if (!pClient->connect(address)) {
-    Serial.println("Connection failed");
-    return false;
-  }
-
-
-  Serial.println("Connected to server");
-
-
-  BLERemoteService* service = pClient->getService(serviceUUID);
-  if (!service) return false;
-
-
-  pRemoteCharacteristic = service->getCharacteristic(charUUID);
-  if (!pRemoteCharacteristic || !pRemoteCharacteristic->canNotify()) return false;
-
-
-  pRemoteCharacteristic->registerForNotify(notifyCallback);
-  connected = true;
-  return true;
-}
-
 
 class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks {
   void onResult(BLEAdvertisedDevice advertisedDevice) {
-    if (advertisedDevice.haveServiceUUID() && advertisedDevice.isAdvertisingService(serviceUUID)) {
-      BLEDevice::getScan()->stop();
-      pServerAddress = new BLEAddress(advertisedDevice.getAddress());
-      doConnect = true;
+    if (advertisedDevice.getName() == "Nano33IMU") {
+      Serial.println("Found Nano33IMU. Stopping scan...");
+      targetDevice = new BLEAdvertisedDevice(advertisedDevice); // Save for later use
+      pBLEScan->stop();
     }
   }
 };
 
+void connectToDevice() {
+  pClient = BLEDevice::createClient();
+  Serial.println("Connecting to Nano33IMU...");
+
+  if (!pClient->connect(targetDevice)) {
+    Serial.println("Failed to connect.");
+    return;
+  }
+
+  Serial.println("Connected!");
+
+  BLERemoteService* pRemoteService = pClient->getService("19B10000-E8F2-537E-4F6C-D104768A1214");
+  if (pRemoteService == nullptr) {
+    Serial.println("Service not found.");
+    return;
+  }
+
+  pRemoteCharacteristic = pRemoteService->getCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214");
+  if (pRemoteCharacteristic == nullptr) {
+    Serial.println("Characteristic not found.");
+    return;
+  }
+
+  if (pRemoteCharacteristic->canNotify()) {
+    pRemoteCharacteristic->registerForNotify(notifyCallback);
+    connected = true;
+    Serial.println("Subscribed to notifications.");
+  }
+}
 
 void setup() {
   Serial.begin(115200);
-  BLEDevice::init("ESP32_IMU_Receiver");
+  BLEDevice::init("");
 
-
-  BLEScan* scan = BLEDevice::getScan();
-  scan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
-  scan->setActiveScan(true);
-  scan->start(5, false);
+  pBLEScan = BLEDevice::getScan();
+  pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
+  pBLEScan->setActiveScan(true);
+  pBLEScan->start(5, false);
 }
 
-
 void loop() {
-  if (doConnect) {
-    connectToServer(*pServerAddress);
-    doConnect = false;
+  if (!connected && targetDevice != nullptr) {
+    connectToDevice();
   }
 
-
-  if (!connected) {
-    delay(1000);
-    Serial.println("Scanning again...");
-    BLEDevice::getScan()->start(5, false);
+  if (!connected && targetDevice == nullptr) {
+    Serial.println("Rescanning...");
+    pBLEScan->start(5, false);
   }
 
-
-  delay(100);
+  delay(2000);
 }
