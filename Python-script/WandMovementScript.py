@@ -1,134 +1,248 @@
-import serial
-import csv
+iimport serial
 import time
-import sys
-import signal
+import argparse
+import serial.tools.list_ports
 import numpy as np
+import pickle
+from sklearn.preprocessing import StandardScaler
 
-# --- CONFIGURATION ---
-SERIAL_PORT = 'COM7'  # Change to your port
-BAUD_RATE = 115200
-CSV_FILE = 'movement_data.csv'
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='ESP32 IMU Data Reader')
+parser.add_argument('--port', type=str, default=None, help='Serial port')
+parser.add_argument('--baud', type=int, default=115200, help='Baud rate')
+parser.add_argument('--model', type=str, default='model.pkl', help='Path to ML model file')
+parser.add_argument('--scaler', type=str, default='scaler.pkl', help='Path to scaler file')
+parser.add_argument('--window', type=int, default=20, help='Samples before prediction')
+args = parser.parse_args()
 
-# --- GLOBAL ---
-data_rows = []
-current_movement = ''
-samples_per_movement = 100
-sample_count = 0
+# --- Load model and scaler ---
+try:
+    print(f"Loading model from {args.model}...")
+    with open(args.model, 'rb') as f:
+        model = pickle.load(f)
+    print("Model loaded successfully!")
+    
+    print(f"Loading scaler from {args.scaler}...")
+    with open(args.scaler, 'rb') as f:
+        scaler = pickle.load(f)
+    print("Scaler loaded successfully!")
+except FileNotFoundError as e:
+    print(f"Error: {e}")
+    print("Will continue without making predictions.")
+    model = None
+    scaler = None
+except Exception as e:
+    print(f"Unexpected error: {e}")
+    print("Will continue without making predictions.")
+    model = None
+    scaler = None
 
-def signal_handler(sig, frame):
-    print('\nCtrl+C detected. Saving data to CSV...')
-    save_to_csv(data_rows)
-    sys.exit(0)
+# Initialize data buffers
+data_buffer = {
+    'ax': [], 'ay': [], 'az': [],
+    'gx': [], 'gy': [], 'gz': [],
+    'mx': [], 'my': [], 'mz': []
+}
 
-def save_to_csv(data):
-    if not data:
-        print("No data to save.")
-        return
-
-    with open(CSV_FILE, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([
-            'min_ax', 'max_ax', 'mean_ax', 'std_ax',
-            'min_ay', 'max_ay', 'mean_ay', 'std_ay',
-            'min_az', 'max_az', 'mean_az', 'std_az',
-            'min_gx', 'max_gx', 'mean_gx', 'std_gx',
-            'min_gy', 'max_gy', 'mean_gy', 'std_gy',
-            'min_gz', 'max_gz', 'mean_gz', 'std_gz',
-            'min_mx', 'max_mx', 'mean_mx', 'std_mx',
-            'min_my', 'max_my', 'mean_my', 'std_my',
-            'min_mz', 'max_mz', 'mean_mz', 'std_mz',
-            'label'
-        ])
-        writer.writerows(data)
-    print(f"Saved {len(data)} samples to {CSV_FILE}")
-
-def parse_serial_line(line):
-    try:
-        parts = line.strip().split(',')
-        if len(parts) != 10:
-            return None
-        readings = list(map(float, parts[:9]))
-        label = parts[9]
-        return readings, label
-    except ValueError:
+def extract_imu_data(line):
+    """Extract IMU data from a line containing 'IMU Data:'"""
+    if "IMU Data:" not in line:
         return None
+    
+    result = {}
+    
+    # Extract accelerometer data
+    if "Accel:" in line:
+        try:
+            accel_part = line.split("Accel:")[1].split("Gyro")[0]
+            values = [float(val.strip()) for val in accel_part.split(",")]
+            if len(values) >= 3:
+                result['accel'] = values[:3]
+        except:
+            pass
+    
+    # Extract gyroscope data
+    if "Gyro" in line:
+        try:
+            gyro_part = line.split("Gyro :")[1].split("Mag")[0]
+            values = [float(val.strip()) for val in gyro_part.split(",")]
+            if len(values) >= 3:
+                result['gyro'] = values[:3]
+        except:
+            pass
+    
+    # Extract magnetometer data
+    if "Mag" in line:
+        try:
+            mag_part = line.split("Mag :")[1]
+            values = [float(val.strip()) for val in mag_part.split(",")]
+            if len(values) >= 3:
+                result['mag'] = values[:3]
+        except:
+            pass
+    
+    return result
 
-def collect_sample(serial_connection, label):
-    collected_data = []
-    print(f"Recording sample {sample_count+1}/100 for movement: {label}")
-
-    while True:
-        if serial_connection.in_waiting > 0:
-            line = serial_connection.readline().decode('utf-8').strip()
-
-            if "STOP recording" in line:
-                break
-
-            parsed = parse_serial_line(line)
-            if parsed:
-                readings, current_label = parsed
-                collected_data.append(readings)
-
-    if not collected_data:
-        print("No data collected for this sample.")
-        return None
-
-    return compute_features(collected_data, label)
-
-def compute_features(data, label):
-    np_data = np.array(data)
+def compute_features():
+    """Compute statistical features from the data buffer"""
     features = []
-
-    for i in range(9):
-        axis_data = np_data[:, i]
-        features.extend([
-            np.min(axis_data),
-            np.max(axis_data),
-            np.mean(axis_data),
-            np.std(axis_data)
-        ])
-
-    features.append(label)
+    for key in data_buffer:
+        array = np.array(data_buffer[key])
+        if len(array) > 0:
+            features += [
+                array.min(), 
+                array.max(), 
+                array.mean(), 
+                array.std() if len(array) > 1 else 0
+            ]
+        else:
+            features += [0, 0, 0, 0]
     return features
 
-def main():
-    global sample_count, current_movement
-    signal.signal(signal.SIGINT, signal_handler)
+def reset_buffer():
+    """Reset all data buffers"""
+    for key in data_buffer:
+        data_buffer[key] = []
 
-    print(f"Connecting to {SERIAL_PORT} at {BAUD_RATE} baud...")
+def make_prediction():
+    """Make a prediction based on current data buffer"""
+    if model is None or scaler is None:
+        print("Model or scaler not loaded. Cannot make prediction.")
+        reset_buffer()
+        return
+    
     try:
-        ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-        time.sleep(2)
-    except serial.SerialException as e:
-        print(f"Error opening serial port: {e}")
-        sys.exit(1)
+        features = compute_features()
+        X = np.array(features).reshape(1, -1)
+        X_scaled = scaler.transform(X)
+        prediction = model.predict(X_scaled)
+        prediction_idx = prediction[0]
+        
+        print(f"\n--- PREDICTION: {prediction_idx} ---\n")
+        
+        reset_buffer()
+    except Exception as e:
+        print(f"Error making prediction: {e}")
 
-    print("Connected! Press and hold button on Arduino to record each sample. Ctrl+C to save and exit.")
-
-    while True:
-        if ser.in_waiting > 0:
-            line = ser.readline().decode('utf-8').strip()
-
-            if "START recording" in line:
-                # Extract current label from the log line
-                parts = line.split(':')
-                if len(parts) > 1:
-                    label = parts[1].strip().split(' ')[0]
-                else:
-                    label = 'unknown'
-
-                current_movement = label
-                sample = collect_sample(ser, label)
-
-                if sample:
-                    data_rows.append(sample)
+def main():
+    # List available ports
+    available_ports = [port.device for port in serial.tools.list_ports.comports()]
+    print(f"Available serial ports: {available_ports}")
+    
+    # Select a port
+    port = args.port
+    if port is None:
+        if not available_ports:
+            print("No serial ports found. Please check your connections.")
+            return
+        
+        print("No port specified. Please select a port:")
+        for i, p in enumerate(available_ports):
+            print(f"{i}: {p}")
+        
+        try:
+            idx = int(input("Enter port number: "))
+            if 0 <= idx < len(available_ports):
+                port = available_ports[idx]
+            else:
+                print("Invalid selection. Exiting.")
+                return
+        except:
+            print("Invalid input. Exiting.")
+            return
+    
+    # Try opening the port with different settings
+    ser = None
+    for baudrate in [115200, 9600]:
+        for timeout in [1, 0.1, 2]:
+            try:
+                print(f"Trying to open {port} with baudrate {baudrate}, timeout {timeout}...")
+                ser = serial.Serial(port, baudrate, timeout=timeout)
+                print(f"Success! Connected with baudrate {baudrate}, timeout {timeout}")
+                break
+            except Exception as e:
+                print(f"Failed: {e}")
+        
+        if ser is not None:
+            break
+    
+    if ser is None:
+        print("Could not open the serial port with any settings. Please check your connections.")
+        return
+    
+    print("\n===== ESP32 IMU DATA READER =====")
+    print("Press Ctrl+C to exit")
+    print("================================\n")
+    
+    sample_count = 0
+    data_count = 0
+    start_time = time.time()
+    
+    try:
+        while True:
+            try:
+                # Read a line of data
+                line = ser.readline().decode('utf-8', errors='ignore').strip()
+                
+                if line:
                     sample_count += 1
-                    print(f"Sample {sample_count}/100 for '{label}' recorded.\n")
-
-                if sample_count >= samples_per_movement:
+                    print(f"Line {sample_count}: {line}")
+                    
+                    # Try to extract IMU data
+                    if "IMU Data:" in line:
+                        data = extract_imu_data(line)
+                        
+                        if data:
+                            data_count += 1
+                            print(f"  → Extracted data: {data}")
+                            
+                            # Update data buffers
+                            if 'accel' in data:
+                                data_buffer['ax'].append(data['accel'][0])
+                                data_buffer['ay'].append(data['accel'][1])
+                                data_buffer['az'].append(data['accel'][2])
+                            
+                            if 'gyro' in data:
+                                data_buffer['gx'].append(data['gyro'][0])
+                                data_buffer['gy'].append(data['gyro'][1])
+                                data_buffer['gz'].append(data['gyro'][2])
+                            
+                            if 'mag' in data:
+                                data_buffer['mx'].append(data['mag'][0])
+                                data_buffer['my'].append(data['mag'][1])
+                                data_buffer['mz'].append(data['mag'][2])
+                            
+                            # Show buffer sizes
+                            acc_count = len(data_buffer['ax'])
+                            gyro_count = len(data_buffer['gx'])
+                            mag_count = len(data_buffer['mx'])
+                            print(f"  → Buffer sizes: A={acc_count}, G={gyro_count}, M={mag_count}/{args.window}")
+                            
+                            # Make prediction if we have enough data
+                            if acc_count >= args.window and gyro_count >= args.window and mag_count >= args.window:
+                                make_prediction()
+                    
+                # Every 10 seconds, print a status update
+                if time.time() - start_time > 10:
+                    elapsed = time.time() - start_time
+                    print(f"\n--- Stats: {sample_count} lines, {data_count} data points in {elapsed:.1f} seconds ---\n")
+                    start_time = time.time()
                     sample_count = 0
-                    print(f"Completed 100 samples for '{label}'. Move to next movement on Arduino.\n")
+                    data_count = 0
+                    
+            except KeyboardInterrupt:
+                raise
+            except Exception as e:
+                print(f"Error: {e}")
+            
+            time.sleep(0.01)
+            
+    except KeyboardInterrupt:
+        print("\nReader stopped by user")
+    finally:
+        if ser is not None:
+            ser.close()
+            print("Serial port closed")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
