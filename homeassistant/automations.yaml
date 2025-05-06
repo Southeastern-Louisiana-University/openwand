@@ -1,1 +1,99 @@
-[]
+- alias: 'Wand Gesture: Toggle Light (M)'
+  description: Toggle lights when 'M' gesture is detected
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: M
+  action:
+  - service: light.toggle
+    target:
+      entity_id:
+      - light.living_room_hue
+  id: b0ac355dd8b44482921a7509bc57df0c
+- alias: 'Wand Gesture: Party Mode (X)'
+  description: Activate color loop when 'X' gesture is detected
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: X
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.living_room_hue
+    data:
+      effect: colorloop
+      brightness: 255
+  id: 7d3f1b9a97e34ff5bad353676e9fc319
+- alias: 'Wand Gesture: Reading Mode (T)'
+  description: Set warm white for reading
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: T
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.living_room_hue
+    data:
+      color_temp: 366
+      brightness: 200
+  id: def9ff21de524fa38c63fac37d8eea12
+- alias: 'Wand Gesture: Brightness Up (circle)'
+  description: Increase brightness by 10%
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: circle
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.living_room_hue
+    data:
+      brightness_step_pct: 10
+  id: 4536519614e64afa9437c52acd1ff7e5
+- alias: 'Wand Gesture: Brightness Down (triangle)'
+  description: Decrease brightness by 10%
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: triangle
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.living_room_hue
+    data:
+      brightness_step_pct: -10
+  id: ebcdcba9228c4369a72df342c1b91353
+- alias: 'Wand Gesture: Cycle Scene (square)'
+  description: Cycle through color scenes
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: square
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.living_room_hue
+    data:
+      effect: random
+  id: 6ecc1f8320584605a166cd5a0e4126b3
+- id: '1746322868687'
+  alias: wand_gesture
+  description: ''
+  triggers: []
+  conditions: []
+  actions: []
+  mode: single
+- id: '1746322872407'
+  alias: wand_gesture
+  description: ''
+  triggers: []
+  conditions: []
+  actions: []
+  mode: single

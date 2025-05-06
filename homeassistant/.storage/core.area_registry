@@ -42,6 +42,19 @@
         "temperature_entity_id": null,
         "created_at": "2025-03-12T14:53:26.467618+00:00",
         "modified_at": "2025-03-12T14:53:26.467624+00:00"
+      },
+      {
+        "aliases": [],
+        "floor_id": null,
+        "humidity_entity_id": null,
+        "icon": null,
+        "id": "envoc",
+        "labels": [],
+        "name": "Envoc",
+        "picture": null,
+        "temperature_entity_id": null,
+        "created_at": "2025-05-04T00:58:16.172561+00:00",
+        "modified_at": "2025-05-04T00:58:16.172565+00:00"
       }
     ]
   }

@@ -1,10 +1,16 @@
-iimport serial
+import serial
 import time
 import argparse
 import serial.tools.list_ports
 import numpy as np
 import pickle
 from sklearn.preprocessing import StandardScaler
+import requests
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='ESP32 IMU Data Reader')
@@ -13,7 +19,13 @@ parser.add_argument('--baud', type=int, default=115200, help='Baud rate')
 parser.add_argument('--model', type=str, default='model.pkl', help='Path to ML model file')
 parser.add_argument('--scaler', type=str, default='scaler.pkl', help='Path to scaler file')
 parser.add_argument('--window', type=int, default=20, help='Samples before prediction')
+parser.add_argument('--ha-url', type=str, default=os.getenv('HA_URL', 'http://localhost:8123'), help='Home Assistant URL')
+parser.add_argument('--ha-token', type=str, default=os.getenv('HA_TOKEN'), help='Home Assistant Token')
 args = parser.parse_args()
+
+# Validate token
+if not args.ha_token:
+    raise ValueError("No Home Assistant token provided. Set HA_TOKEN in .env or use --ha-token")
 
 # --- Load model and scaler ---
 try:
@@ -44,70 +56,73 @@ data_buffer = {
     'mx': [], 'my': [], 'mz': []
 }
 
+def send_ha_event(gesture):
+    """Securely send gesture event to Home Assistant"""
+    url = f"{args.ha_url}/api/events/wand_gesture"
+    headers = {
+        "Authorization": f"Bearer {args.ha_token}",
+        "Content-Type": "application/json"
+    }
+    data = {"gesture": gesture}
+    
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=5)
+        response.raise_for_status()
+        print(f"HA Event: {gesture} (Status: {response.status_code})")
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending to HA: {str(e)[:100]}...")
+
 def extract_imu_data(line):
-    """Extract IMU data from a line containing 'IMU Data:'"""
-    if "IMU Data:" not in line:
+    """Extract IMU data from the Arduino's specific format"""
+    if not line.startswith("IMU Data:"):
         return None
-    
-    result = {}
-    
-    # Extract accelerometer data
-    if "Accel:" in line:
-        try:
-            accel_part = line.split("Accel:")[1].split("Gyro")[0]
-            values = [float(val.strip()) for val in accel_part.split(",")]
-            if len(values) >= 3:
-                result['accel'] = values[:3]
-        except:
-            pass
-    
-    # Extract gyroscope data
-    if "Gyro" in line:
-        try:
-            gyro_part = line.split("Gyro :")[1].split("Mag")[0]
-            values = [float(val.strip()) for val in gyro_part.split(",")]
-            if len(values) >= 3:
-                result['gyro'] = values[:3]
-        except:
-            pass
-    
-    # Extract magnetometer data
-    if "Mag" in line:
-        try:
-            mag_part = line.split("Mag :")[1]
-            values = [float(val.strip()) for val in mag_part.split(",")]
-            if len(values) >= 3:
-                result['mag'] = values[:3]
-        except:
-            pass
+
+    try:
+        # Split into sections
+        sections = [s.strip() for s in line.split('\n') if s.strip()]
+        
+        # Parse accelerometer
+        accel = [float(x) for x in sections[1].replace("Accel:", "").split(',')]
+        
+        # Parse gyroscope (note the space after Gyro)
+        gyro = [float(x) for x in sections[2].replace("Gyro :", "").split(',')]
+        
+        # Parse magnetometer (note the space after Mag)
+        mag = [float(x) for x in sections[3].replace("Mag  :", "").split(',')]
+
+        return {
+            'accel': accel[:3],  # Ensure only 3 values
+            'gyro': gyro[:3],
+            'mag': mag[:3]
+        }
+    except Exception as e:
+        print(f"Data parsing error: {e}")
+        return None
     
     return result
 
 def compute_features():
-    """Compute statistical features from the data buffer"""
+    """Calculate statistical features from buffer"""
     features = []
     for key in data_buffer:
-        array = np.array(data_buffer[key])
-        if len(array) > 0:
-            features += [
-                array.min(), 
-                array.max(), 
-                array.mean(), 
-                array.std() if len(array) > 1 else 0
-            ]
-        else:
-            features += [0, 0, 0, 0]
+        arr = np.array(data_buffer[key])
+        features += [
+            arr.min() if len(arr) > 0 else 0,
+            arr.max() if len(arr) > 0 else 0,
+            arr.mean() if len(arr) > 0 else 0,
+            arr.std() if len(arr) > 1 else 0
+        ]
     return features
 
 def reset_buffer():
-    """Reset all data buffers"""
+    """Clear all data buffers"""
     for key in data_buffer:
         data_buffer[key] = []
 
 def make_prediction():
-    """Make a prediction based on current data buffer"""
+    """Run ML prediction on collected data"""
     if model is None or scaler is None:
-        print("Model or scaler not loaded. Cannot make prediction.")
+        print("Skipping prediction - no model loaded")
         reset_buffer()
         return
     
@@ -115,134 +130,99 @@ def make_prediction():
         features = compute_features()
         X = np.array(features).reshape(1, -1)
         X_scaled = scaler.transform(X)
-        prediction = model.predict(X_scaled)
-        prediction_idx = prediction[0]
+        prediction = model.predict(X_scaled)[0]
         
-        print(f"\n--- PREDICTION: {prediction_idx} ---\n")
-        
+        print(f"\nPredicted Gesture: {prediction}\n")
+        send_ha_event(prediction)
         reset_buffer()
     except Exception as e:
-        print(f"Error making prediction: {e}")
+        print(f"Prediction failed: {e}")
 
 def main():
-    # List available ports
-    available_ports = [port.device for port in serial.tools.list_ports.comports()]
-    print(f"Available serial ports: {available_ports}")
-    
-    # Select a port
-    port = args.port
-    if port is None:
-        if not available_ports:
-            print("No serial ports found. Please check your connections.")
-            return
-        
-        print("No port specified. Please select a port:")
+    """Main serial reading loop"""
+    # Port detection
+    available_ports = [p.device for p in serial.tools.list_ports.comports()]
+    if not available_ports:
+        print("No serial ports found!")
+        return
+
+    port = args.port or available_ports[0]
+    if args.port is None and len(available_ports) > 1:
+        print("Available ports:")
         for i, p in enumerate(available_ports):
             print(f"{i}: {p}")
-        
         try:
-            idx = int(input("Enter port number: "))
-            if 0 <= idx < len(available_ports):
-                port = available_ports[idx]
-            else:
-                print("Invalid selection. Exiting.")
-                return
+            port = available_ports[int(input("Select port: "))]
         except:
-            print("Invalid input. Exiting.")
-            return
-    
-    # Try opening the port with different settings
+            print("Using first port")
+
+    # Serial connection
     ser = None
-    for baudrate in [115200, 9600]:
-        for timeout in [1, 0.1, 2]:
-            try:
-                print(f"Trying to open {port} with baudrate {baudrate}, timeout {timeout}...")
-                ser = serial.Serial(port, baudrate, timeout=timeout)
-                print(f"Success! Connected with baudrate {baudrate}, timeout {timeout}")
-                break
-            except Exception as e:
-                print(f"Failed: {e}")
-        
-        if ser is not None:
+    for baud in [args.baud, 9600]:
+        try:
+            ser = serial.Serial(port, baud, timeout=1)
+            print(f"Connected to {port} at {baud} baud")
             break
+        except Exception as e:
+            print(f"Failed at {baud} baud: {e}")
     
-    if ser is None:
-        print("Could not open the serial port with any settings. Please check your connections.")
+    if not ser:
+        print("Couldn't establish serial connection")
         return
-    
-    print("\n===== ESP32 IMU DATA READER =====")
-    print("Press Ctrl+C to exit")
-    print("================================\n")
-    
-    sample_count = 0
-    data_count = 0
-    start_time = time.time()
-    
+
+    # Main loop
     try:
+        sample_count = 0
+        start_time = time.time()
+        
         while True:
             try:
-                # Read a line of data
                 line = ser.readline().decode('utf-8', errors='ignore').strip()
-                
-                if line:
-                    sample_count += 1
-                    print(f"Line {sample_count}: {line}")
+                if not line:
+                    continue
+
+                sample_count += 1
+                if "IMU Data:" in line:
+                    data = extract_imu_data(line)
+                    if not data:
+                        continue
+
+                    # Update buffers
+                    if 'accel' in data:
+                        data_buffer['ax'].append(data['accel'][0])
+                        data_buffer['ay'].append(data['accel'][1])
+                        data_buffer['az'].append(data['accel'][2])
                     
-                    # Try to extract IMU data
-                    if "IMU Data:" in line:
-                        data = extract_imu_data(line)
-                        
-                        if data:
-                            data_count += 1
-                            print(f"  → Extracted data: {data}")
-                            
-                            # Update data buffers
-                            if 'accel' in data:
-                                data_buffer['ax'].append(data['accel'][0])
-                                data_buffer['ay'].append(data['accel'][1])
-                                data_buffer['az'].append(data['accel'][2])
-                            
-                            if 'gyro' in data:
-                                data_buffer['gx'].append(data['gyro'][0])
-                                data_buffer['gy'].append(data['gyro'][1])
-                                data_buffer['gz'].append(data['gyro'][2])
-                            
-                            if 'mag' in data:
-                                data_buffer['mx'].append(data['mag'][0])
-                                data_buffer['my'].append(data['mag'][1])
-                                data_buffer['mz'].append(data['mag'][2])
-                            
-                            # Show buffer sizes
-                            acc_count = len(data_buffer['ax'])
-                            gyro_count = len(data_buffer['gx'])
-                            mag_count = len(data_buffer['mx'])
-                            print(f"  → Buffer sizes: A={acc_count}, G={gyro_count}, M={mag_count}/{args.window}")
-                            
-                            # Make prediction if we have enough data
-                            if acc_count >= args.window and gyro_count >= args.window and mag_count >= args.window:
-                                make_prediction()
+                    if 'gyro' in data:
+                        data_buffer['gx'].append(data['gyro'][0])
+                        data_buffer['gy'].append(data['gyro'][1])
+                        data_buffer['gz'].append(data['gyro'][2])
                     
-                # Every 10 seconds, print a status update
+                    if 'mag' in data:
+                        data_buffer['mx'].append(data['mag'][0])
+                        data_buffer['my'].append(data['mag'][1])
+                        data_buffer['mz'].append(data['mag'][2])
+
+                    # Check prediction window
+                    if all(len(v) >= args.window for v in data_buffer.values()):
+                        make_prediction()
+
+                # Periodic status
                 if time.time() - start_time > 10:
-                    elapsed = time.time() - start_time
-                    print(f"\n--- Stats: {sample_count} lines, {data_count} data points in {elapsed:.1f} seconds ---\n")
+                    print(f"\nSamples: {sample_count} | Last Gesture: {data_buffer.get('last_gesture', 'None')}\n")
                     start_time = time.time()
                     sample_count = 0
-                    data_count = 0
-                    
+
             except KeyboardInterrupt:
                 raise
             except Exception as e:
-                print(f"Error: {e}")
-            
-            time.sleep(0.01)
-            
+                print(f"Loop error: {e}")
+
     except KeyboardInterrupt:
-        print("\nReader stopped by user")
+        print("\nStopping...")
     finally:
-        if ser is not None:
+        if ser and ser.is_open:
             ser.close()
-            print("Serial port closed")
 
 if __name__ == "__main__":
     main()

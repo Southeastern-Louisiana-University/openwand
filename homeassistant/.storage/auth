@@ -101,10 +101,27 @@
         "access_token_expiration": 1800.0,
         "token": "83afb7773acf72be575160871d7ad266345e79630c189941dec4d11bb17cc335a24908b2413bd43b77df37d3e6e80a9477603a41754cac9b6a24fe6c7fd5ee8b",
         "jwt_key": "5d7789a4e8d220e8edcf550de340d45238e5f5d2812f42fcfdd475e46e71d3ce6be3faf33114cae32e277a412a2dcccaaf701fbaf15c7a414693d9e8d8ca1ba0",
-        "last_used_at": "2025-05-01T19:21:58.862025+00:00",
+        "last_used_at": "2025-05-06T16:27:43.122450+00:00",
         "last_used_ip": "172.17.0.1",
-        "expire_at": 1753903318.862025,
+        "expire_at": 1754324863.12245,
         "credential_id": "f46a6b3bdd2d4938ae5966dd299849f1",
+        "version": "2025.3.2"
+      },
+      {
+        "id": "fa75af09ca514a65bd20d1c5e5c26a24",
+        "user_id": "471e7c96ea894f5eb3dc63aa9fdcbd48",
+        "client_id": null,
+        "client_name": "WandControl",
+        "client_icon": null,
+        "token_type": "long_lived_access_token",
+        "created_at": "2025-05-04T01:23:52.126297+00:00",
+        "access_token_expiration": 315360000.0,
+        "token": "5ca9f6e6d8ed21966c7761cf3b26b692761b2fed1d7397604f4bdb56bd8c4e35299ae9b66ade3fa2f3d0cfd7ab23066007c76fdcfc16f49f746a2c2cb9211c45",
+        "jwt_key": "59d6b6d2c754c9bd71b44c63059c1b0eecde94d9863ba62f5fe9ac2c11fdf3bf0ed26ee3f52713f3e71bfb91eb8978d8d9592f86bb5659780ed8a5e44ebda148",
+        "last_used_at": "2025-05-04T01:23:52.127169+00:00",
+        "last_used_ip": null,
+        "expire_at": null,
+        "credential_id": null,
         "version": "2025.3.2"
       }
     ]

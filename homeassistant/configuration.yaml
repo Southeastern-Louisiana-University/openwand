@@ -1,29 +1,14 @@
+# Enable required integrations
+homeassistant:
+  packages: !include_dir_named packages
 
-# Loads default set of integrations. Do not remove.
-default_config:
+# REST API Command for wand gestures
+rest_command:
+  wand_gesture:
+    url: "http://localhost:8123/api/events/wand_gesture"
+    headers:
+      Authorization: !secret ha_token
+      Content-Type: "application/json"
 
-# Load frontend themes from the themes folder
-frontend:
-  themes: !include_dir_merge_named themes
-
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-
-mqtt:
-  broker: localhost
-  port: 1883
-
-automation:
-  - alias: "Trigger Device Based on Movement"
-    trigger:
-      platform: state
-      entity_id: sensor.movement_sensor
-    action:
-      - service: homeassistant.turn_on
-        target:
-          entity_id: switch.your_device
-      - delay: "00:00:10"  # Wait for 10 seconds
-      - service: homeassistant.turn_off
-        target:
-          entity_id: switch.your_device  
+phue:
+  host: !secret hue_bridge_ip
