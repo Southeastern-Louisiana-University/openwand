@@ -1,87 +1,59 @@
-#include <ArduinoBLE.h>
-#include <Arduino_BMI270_BMM150.h>
+#include "Arduino_BMI270_BMM150.h"
 
-BLEService imuService("19B10000-E8F2-537E-4F6C-D104768A1214");
-BLECharacteristic imuCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", 
-                                    BLERead | BLENotify, 20);
 
+// Button pin
 const int buttonPin = 2;
 
-void setup() {
-  Serial.begin(9600);
-  unsigned long start = millis();
-  while (!Serial && millis() - start < 1500);
 
-  pinMode(buttonPin, INPUT_PULLUP);
+void setup() {
+  Serial.begin(115200);
+  while (!Serial);
+
+
+  pinMode(buttonPin, INPUT_PULLUP); // Use internal pull-up resistor
+
 
   if (!IMU.begin()) {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
 
-  if (!BLE.begin()) {
-    Serial.println("Starting BLE failed!");
-    while (1);
-  }
 
-  BLE.setLocalName("Nano33IMU");
-  BLE.setAdvertisedService(imuService);
-  imuService.addCharacteristic(imuCharacteristic);
-  BLE.addService(imuService);
-  BLE.advertise();
-
-  Serial.println("BLE IMU Peripheral is now advertising");
+  Serial.println("Arduino Nano 33 IMU - Simple Version");
+  Serial.println("===================================");
+  Serial.println("HOLD button to send data, RELEASE to stop");
 }
 
+
 void loop() {
-  BLEDevice central = BLE.central();
-  if (central) {
-    Serial.print("Connected to central: ");
-    Serial.println(central.address());
+  // Button uses INPUT_PULLUP, so LOW = pressed
+  if (digitalRead(buttonPin) == LOW) {
+    float ax, ay, az;
+    float gx, gy, gz;
 
-    while (central.connected()) {
-      if (digitalRead(buttonPin) == LOW) {
-        float aX, aY, aZ, gX, gY, gZ, mX, mY, mZ;
 
-        if (IMU.accelerationAvailable() && IMU.gyroscopeAvailable() && IMU.magneticFieldAvailable()) {
-          IMU.readAcceleration(aX, aY, aZ);
-          IMU.readGyroscope(gX, gY, gZ);
-          IMU.readMagneticField(mX, mY, mZ);
+    // Only print if data is available
+    if (IMU.accelerationAvailable() && IMU.gyroscopeAvailable()) {
+      IMU.readAcceleration(ax, ay, az);
+      IMU.readGyroscope(gx, gy, gz);
 
-          // Accelerometer packet
-          uint8_t accelPacket[13];
-          accelPacket[0] = 'A';
-          memcpy(&accelPacket[1], &aX, 4);
-          memcpy(&accelPacket[5], &aY, 4);
-          memcpy(&accelPacket[9], &aZ, 4);
-          imuCharacteristic.writeValue(accelPacket, 13);
-          delay(10);
 
-          // Gyroscope packet
-          uint8_t gyroPacket[13];
-          gyroPacket[0] = 'G';
-          memcpy(&gyroPacket[1], &gX, 4);
-          memcpy(&gyroPacket[5], &gY, 4);
-          memcpy(&gyroPacket[9], &gZ, 4);
-          imuCharacteristic.writeValue(gyroPacket, 13);
-          delay(10);
-
-          // Magnetometer packet
-          uint8_t magPacket[13];
-          magPacket[0] = 'M';
-          memcpy(&magPacket[1], &mX, 4);
-          memcpy(&magPacket[5], &mY, 4);
-          memcpy(&magPacket[9], &mZ, 4);
-          imuCharacteristic.writeValue(magPacket, 13);
-          delay(10);
-
-          Serial.println("Sent IMU data (A, G, M)");
-        }
-
-        delay(200); // Avoid flooding
-      }
+      Serial.print(millis());
+      Serial.print(",");
+      Serial.print(ax);
+      Serial.print(",");
+      Serial.print(ay);
+      Serial.print(",");
+      Serial.print(az);
+      Serial.print(",");
+      Serial.print(gx);
+      Serial.print(",");
+      Serial.print(gy);
+      Serial.print(",");
+      Serial.println(gz);
     }
 
-    Serial.println("Disconnected from central");
+
+    delay(10); // Limit data rate
   }
 }
