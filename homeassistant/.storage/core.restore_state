@@ -4,24 +4,94 @@
   "key": "core.restore_state",
   "data": [
     {
-      "state": {"entity_id":"person.seth_landry","state":"unknown","attributes":{"editable":true,"id":"seth_landry","device_trackers":[],"user_id":"471e7c96ea894f5eb3dc63aa9fdcbd48","friendly_name":"seth landry"},"last_changed":"2025-04-28T22:15:40.362214+00:00","last_reported":"2025-04-28T22:15:59.567641+00:00","last_updated":"2025-04-28T22:15:59.567641+00:00","context":{"id":"01JSZ7HATF39K2M79B787Y0G1A","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"person.seth_landry","state":"unknown","attributes":{"editable":true,"id":"seth_landry","device_trackers":[],"user_id":"471e7c96ea894f5eb3dc63aa9fdcbd48","friendly_name":"seth landry"},"last_changed":"2025-05-07T06:32:56.045382+00:00","last_reported":"2025-05-07T06:32:59.303244+00:00","last_updated":"2025-05-07T06:32:59.303244+00:00","context":{"id":"01JTMQ53N7YV3JD3JEQK2MG0J4","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-06T16:47:47.042182+00:00"
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-05-07T06:32:56.636298+00:00","last_reported":"2025-05-07T06:32:56.636298+00:00","last_updated":"2025-05-07T06:32:56.636298+00:00","context":{"id":"01JTMQ511W0XFT3HXTA65RNC91","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_down","state":"on","attributes":{"id":"e30a360dac57451aae2920e6cecc07b5","last_triggered":"2025-05-07T07:28:13.253339+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Down"},"last_changed":"2025-05-07T07:21:39.846393+00:00","last_reported":"2025-05-07T07:28:13.374430+00:00","last_updated":"2025-05-07T07:28:13.374430+00:00","context":{"id":"01JTMTA7Y5PYAAMXV6VNQ3XZGP","parent_id":"01JTMTA7Y4D3V2R7BE1H5VAP58","user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_up","state":"on","attributes":{"id":"08cdc3a5b92b4712bcd13efd75d0c652","last_triggered":"2025-05-07T07:28:04.617732+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Up"},"last_changed":"2025-05-07T07:21:39.847206+00:00","last_reported":"2025-05-07T07:28:04.917535+00:00","last_updated":"2025-05-07T07:28:04.917535+00:00","context":{"id":"01JTMT9ZG9QFT95CXR5CTPEPZG","parent_id":"01JTMT9ZG8RQ931VK03AZNN772","user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_left","state":"on","attributes":{"id":"9d997ef913ce40f9b62ba3f8d7eaf015","last_triggered":"2025-05-07T07:28:31.003489+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Left"},"last_changed":"2025-05-07T07:21:39.847634+00:00","last_reported":"2025-05-07T07:28:33.177958+00:00","last_updated":"2025-05-07T07:28:33.177958+00:00","context":{"id":"01JTMTAS8VBCMENHEJVM17HR4P","parent_id":"01JTMTAS8T50VM6S4D64AGT27R","user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_right","state":"on","attributes":{"id":"aa7662f98aa9474a87b3d9911c4933a4","last_triggered":"2025-05-07T07:28:24.155883+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Right"},"last_changed":"2025-05-07T07:21:39.848251+00:00","last_reported":"2025-05-07T07:28:24.346705+00:00","last_updated":"2025-05-07T07:28:24.346705+00:00","context":{"id":"01JTMTAJJVHPX9MEJ99V81WX7G","parent_id":"01JTMTAJJT7GAMAWWMRCTJPQ9J","user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_still","state":"on","attributes":{"id":"1acdd4dd5ff14bb8bf079fe519271885","last_triggered":"2025-05-07T07:28:36.746441+00:00","mode":"restart","current":0,"friendly_name":"Wand Gesture - Still"},"last_changed":"2025-05-07T07:26:55.694692+00:00","last_reported":"2025-05-07T07:29:41.696324+00:00","last_updated":"2025-05-07T07:29:41.696324+00:00","context":{"id":"01JTMTCYA089AZ24TJZGHMCPAH","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_random_color_x","state":"on","attributes":{"id":"wand_gesture_random_color_x","last_triggered":"2025-05-06T23:29:58.997010+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture: Random Color (X)"},"last_changed":"2025-05-07T04:36:47.303681+00:00","last_reported":"2025-05-07T04:36:47.303681+00:00","last_updated":"2025-05-07T04:36:47.303681+00:00","context":{"id":"01JTMGGB27TRVRHMTNNA9821P0","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T05:39:47.529239+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_fade_down_updown","state":"on","attributes":{"id":"wand_gesture_fade_down_updown","last_triggered":"2025-05-06T23:32:13.470933+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture: Fade Down (updown)"},"last_changed":"2025-05-07T04:36:47.304143+00:00","last_reported":"2025-05-07T04:36:47.304143+00:00","last_updated":"2025-05-07T04:36:47.304143+00:00","context":{"id":"01JTMGGB28GK4JVX756KRP8WRS","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T05:39:47.540560+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_fade_up_downup","state":"on","attributes":{"id":"wand_gesture_fade_up_downup","last_triggered":"2025-05-06T23:32:27.325644+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture: Fade Up (downup)"},"last_changed":"2025-05-07T04:36:47.304573+00:00","last_reported":"2025-05-07T04:36:47.304573+00:00","last_updated":"2025-05-07T04:36:47.304573+00:00","context":{"id":"01JTMGGB28T31Y4R2GX873TQSG","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T05:39:47.541971+00:00"
     },
     {
       "state": {"entity_id":"conversation.home_assistant","state":"unknown","attributes":{"friendly_name":"Home Assistant","supported_features":1},"last_changed":"2025-04-28T22:15:57.468774+00:00","last_reported":"2025-04-28T22:15:57.468774+00:00","last_updated":"2025-04-28T22:15:57.468774+00:00","context":{"id":"01JSZ7H8RW40WVPF9X3FJTKJ4D","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-06T16:47:47.042182+00:00"
-    },
-    {
-      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-04-28T22:15:59.094805+00:00","last_reported":"2025-04-28T22:15:59.094805+00:00","last_updated":"2025-04-28T22:15:59.094805+00:00","context":{"id":"01JSZ7HABP5JFB7QZEZ8WYMRRP","parent_id":null,"user_id":null}},
-      "extra_data": null,
-      "last_seen": "2025-05-06T16:47:47.042182+00:00"
+      "last_seen": "2025-05-07T02:28:02.417245+00:00"
     },
     {
       "state": {"entity_id":"automation.trigger_device_based_on_movement","state":"on","attributes":{"last_triggered":null,"mode":"single","current":0,"friendly_name":"Trigger Device Based on Movement"},"last_changed":"2025-04-28T22:15:58.842919+00:00","last_reported":"2025-04-28T22:15:58.842919+00:00","last_updated":"2025-04-28T22:15:58.842919+00:00","context":{"id":"01JSZ7HA3T11Q7CJA3GCWQYEVG","parent_id":null,"user_id":null}},
       "extra_data": null,
       "last_seen": "2025-05-04T01:41:19.369489+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.test_automation","state":"off","attributes":{"last_triggered":"2025-05-06T22:26:22.885069+00:00","mode":"single","current":0,"friendly_name":"Test Automation"},"last_changed":"2025-05-06T22:27:34.956648+00:00","last_reported":"2025-05-06T22:27:34.956648+00:00","last_updated":"2025-05-06T22:27:34.956648+00:00","context":{"id":"01JTKVC9X9TQB0ARQSANXGN6XZ","parent_id":null,"user_id":"471e7c96ea894f5eb3dc63aa9fdcbd48"}},
+      "extra_data": null,
+      "last_seen": "2025-05-06T22:37:26.849272+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.x_gesture","state":"on","attributes":{"id":"1746570247913","last_triggered":"2025-05-06T22:28:04.315012+00:00","mode":"single","current":0,"friendly_name":"X Gesture"},"last_changed":"2025-05-06T22:24:31.605948+00:00","last_reported":"2025-05-06T22:28:04.346769+00:00","last_updated":"2025-05-06T22:28:04.346769+00:00","context":{"id":"01JTKVD6JTJ0AGYNERBMP4525X","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-06T22:37:26.853309+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_down_original_up","state":"on","attributes":{"last_triggered":"2025-05-07T06:36:15.054949+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Down (Original: up)"},"last_changed":"2025-05-07T06:41:15.407849+00:00","last_reported":"2025-05-07T06:41:15.407849+00:00","last_updated":"2025-05-07T06:41:15.407849+00:00","context":{"id":"01JTMQM84FD417XC4YJTG8QJWB","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T06:44:45.898226+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_left_original_down_right","state":"on","attributes":{"last_triggered":null,"mode":"single","current":0,"friendly_name":"Wand Gesture - Left (Original: down/right)"},"last_changed":"2025-05-07T06:41:15.408532+00:00","last_reported":"2025-05-07T06:41:15.408532+00:00","last_updated":"2025-05-07T06:41:15.408532+00:00","context":{"id":"01JTMQM84G5JFB7QZEZ8WYMRRP","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T06:44:45.898702+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_right_original_left","state":"on","attributes":{"last_triggered":null,"mode":"single","current":0,"friendly_name":"Wand Gesture - Right (Original: left)"},"last_changed":"2025-05-07T06:41:15.408728+00:00","last_reported":"2025-05-07T06:41:15.408728+00:00","last_updated":"2025-05-07T06:41:15.408728+00:00","context":{"id":"01JTMQM84G86ECWST8KYMJKHTD","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T06:44:45.898804+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_still_2","state":"on","attributes":{"id":"1746602118949","last_triggered":"2025-05-07T07:18:15.493722+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Still"},"last_changed":"2025-05-07T07:17:06.229114+00:00","last_reported":"2025-05-07T07:18:15.546831+00:00","last_updated":"2025-05-07T07:18:15.546831+00:00","context":{"id":"01JTMSR065TRDFHM4HYGRSFGY7","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-07T07:18:19.278342+00:00"
     }
   ]
 }

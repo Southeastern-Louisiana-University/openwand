@@ -1,14 +1,18 @@
-# Enable required integrations
+# Core configuration
 homeassistant:
   packages: !include_dir_named packages
+
+# Automations
+automation: !include automations.yaml
 
 # REST API Command for wand gestures
 rest_command:
   wand_gesture:
     url: "http://localhost:8123/api/events/wand_gesture"
     headers:
-      Authorization: !secret ha_token
+      Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmYTc1YWYwOWNhNTE0YTY1YmQyMGQxYzVlNWMyNmEyNCIsImlhdCI6MTc0NjMyMTgzMiwiZXhwIjoyMDYxNjgxODMyfQ.CRPFFhftJCrTglaK_3CJHmFrvhfjarJwXPVeMnP172g"
       Content-Type: "application/json"
 
-phue:
-  host: !secret hue_bridge_ip
+# Philips Hue integration
+hue:
+  host: "192.168.1.180"

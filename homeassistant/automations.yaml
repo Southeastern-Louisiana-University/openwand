@@ -1,99 +1,126 @@
-- alias: 'Wand Gesture: Toggle Light (M)'
-  description: Toggle lights when 'M' gesture is detected
+- alias: Wand Gesture - Down
+  description: Slowly dim lights to off
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
-      gesture: M
+      gesture: down
   action:
-  - service: light.toggle
+  - service: light.turn_on
     target:
       entity_id:
-      - light.living_room_hue
-  id: b0ac355dd8b44482921a7509bc57df0c
-- alias: 'Wand Gesture: Party Mode (X)'
-  description: Activate color loop when 'X' gesture is detected
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_2
+    data:
+      brightness: 0
+      transition: 5
+  id: e30a360dac57451aae2920e6cecc07b5
+- alias: Wand Gesture - Up
+  description: Slowly dim lights to max brightness
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
-      gesture: X
+      gesture: up
   action:
   - service: light.turn_on
     target:
-      entity_id: light.living_room_hue
+      entity_id:
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_2
     data:
-      effect: colorloop
       brightness: 255
-  id: 7d3f1b9a97e34ff5bad353676e9fc319
-- alias: 'Wand Gesture: Reading Mode (T)'
-  description: Set warm white for reading
+      transition: 5
+  id: 08cdc3a5b92b4712bcd13efd75d0c652
+- alias: Wand Gesture - Left
+  description: Change to purple with wave effect
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
-      gesture: T
+      gesture: left
   action:
   - service: light.turn_on
     target:
-      entity_id: light.living_room_hue
+      entity_id:
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_2
     data:
-      color_temp: 366
+      brightness: 180
+      rgb_color:
+      - 128
+      - 0
+      - 128
+      transition: 2
+  - delay: 00:00:02
+  - service: light.turn_on
+    target:
+      entity_id: light.hue_color_lamp_2
+    data:
+      brightness: 210
+      transition: 1
+  id: 9d997ef913ce40f9b62ba3f8d7eaf015
+- alias: Wand Gesture - Right
+  description: Change to red
+  trigger:
+    platform: event
+    event_type: wand_gesture
+    event_data:
+      gesture: right
+  action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_2
+    data:
       brightness: 200
-  id: def9ff21de524fa38c63fac37d8eea12
-- alias: 'Wand Gesture: Brightness Up (circle)'
-  description: Increase brightness by 10%
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      transition: 2
+  id: aa7662f98aa9474a87b3d9911c4933a4
+- alias: "Wand Gesture - Still"
+  description: "Random color fade effect"
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
-      gesture: circle
+      gesture: "still"
   action:
-  - service: light.turn_on
-    target:
-      entity_id: light.living_room_hue
-    data:
-      brightness_step_pct: 10
-  id: 4536519614e64afa9437c52acd1ff7e5
-- alias: 'Wand Gesture: Brightness Down (triangle)'
-  description: Decrease brightness by 10%
-  trigger:
-    platform: event
-    event_type: wand_gesture
-    event_data:
-      gesture: triangle
-  action:
-  - service: light.turn_on
-    target:
-      entity_id: light.living_room_hue
-    data:
-      brightness_step_pct: -10
-  id: ebcdcba9228c4369a72df342c1b91353
-- alias: 'Wand Gesture: Cycle Scene (square)'
-  description: Cycle through color scenes
-  trigger:
-    platform: event
-    event_type: wand_gesture
-    event_data:
-      gesture: square
-  action:
-  - service: light.turn_on
-    target:
-      entity_id: light.living_room_hue
-    data:
-      effect: random
-  id: 6ecc1f8320584605a166cd5a0e4126b3
-- id: '1746322868687'
-  alias: wand_gesture
-  description: ''
-  triggers: []
-  conditions: []
-  actions: []
-  mode: single
-- id: '1746322872407'
-  alias: wand_gesture
-  description: ''
-  triggers: []
-  conditions: []
-  actions: []
-  mode: single
+    - service: light.turn_on
+      target:
+        entity_id:
+          - light.hue_color_lamp_1
+          - light.hue_color_lamp_2
+      data:
+        brightness: 150
+        rgb_color: [255, 0, 0]
+        transition: 1
+    
+    - variables:
+        available_colors:
+          - [255, 0, 0]
+          - [0, 255, 0]
+          - [0, 0, 255]
+          - [255, 255, 0]
+          - [255, 0, 255]
+          - [0, 255, 255]
+          - [255, 165, 0]
+    
+    - repeat:
+        count: 20
+        sequence:
+          - service: light.turn_on
+            target:
+              entity_id:
+                - light.hue_color_lamp_1
+                - light.hue_color_lamp_2
+            data:
+              rgb_color: "{{ available_colors | random }}"
+              brightness: 150
+              transition: 3
+          - delay: "00:00:03"
+  mode: restart
+  id: 1acdd4dd5ff14bb8bf079fe519271885

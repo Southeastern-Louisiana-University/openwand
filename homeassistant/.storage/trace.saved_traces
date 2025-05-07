@@ -1,0 +1,651 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "trace.saved_traces",
+  "data": {
+    "automation.None": [
+      {
+        "extended_dict": {
+          "last_step": "action/0",
+          "run_id": "3a4ef8f09d503367e6b311b1c7c21600",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T05:40:43.890542+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": null,
+          "trace": {
+            "trigger": [
+              {
+                "path": "trigger",
+                "timestamp": "2025-05-07T05:40:43.890654+00:00",
+                "changed_variables": {
+                  "this": {
+                    "entity_id": "automation.wand_gesture_left",
+                    "state": "on",
+                    "attributes": {
+                      "last_triggered": null,
+                      "mode": "single",
+                      "current": 0,
+                      "friendly_name": "Wand Gesture - Left"
+                    },
+                    "last_changed": "2025-05-07T05:39:47.564100+00:00",
+                    "last_reported": "2025-05-07T05:39:47.564100+00:00",
+                    "last_updated": "2025-05-07T05:39:47.564100+00:00",
+                    "context": {
+                      "id": "01JTMM3PQCJ5AJFHP9KFKDQAZ6",
+                      "parent_id": null,
+                      "user_id": null
+                    }
+                  },
+                  "trigger": {
+                    "platform": null
+                  }
+                }
+              }
+            ],
+            "action/0": [
+              {
+                "path": "action/0",
+                "timestamp": "2025-05-07T05:40:43.891254+00:00",
+                "changed_variables": {
+                  "context": {
+                    "id": "01JTMM5DQJ0VY7CANMARNESCMX",
+                    "parent_id": "01JTMM5DQJH2TVCEGRWZEHD52Y",
+                    "user_id": null
+                  }
+                },
+                "result": {
+                  "params": {
+                    "domain": "light",
+                    "service": "turn_on",
+                    "service_data": {
+                      "brightness": 180,
+                      "color_name": "blue",
+                      "entity_id": [
+                        "light.hue_color_lamp_2"
+                      ]
+                    },
+                    "target": {
+                      "entity_id": [
+                        "light.hue_color_lamp_2"
+                      ]
+                    }
+                  },
+                  "running_script": false
+                }
+              }
+            ]
+          },
+          "config": {
+            "alias": "Wand Gesture - Left",
+            "description": "Original gesture was 'down' or 'right' \u2192 Reversed to 'left'",
+            "trigger": {
+              "platform": "event",
+              "event_type": "wand_gesture",
+              "event_data": {
+                "gesture": "left"
+              }
+            },
+            "action": [
+              {
+                "target": {
+                  "entity_id": "light.hue_color_lamp_2"
+                },
+                "data": {
+                  "brightness": 180,
+                  "color_name": "blue"
+                },
+                "action": "light.turn_on"
+              }
+            ]
+          },
+          "blueprint_inputs": null,
+          "context": {
+            "id": "01JTMM5DQJ0VY7CANMARNESCMX",
+            "parent_id": "01JTMM5DQJH2TVCEGRWZEHD52Y",
+            "user_id": null
+          }
+        },
+        "short_dict": {
+          "last_step": "action/0",
+          "run_id": "3a4ef8f09d503367e6b311b1c7c21600",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T05:40:43.890542+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": null
+        }
+      },
+      {
+        "extended_dict": {
+          "last_step": "action/0",
+          "run_id": "32ae7078a32232ed60a7504d6ae46cbc",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T05:40:48.220044+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": null,
+          "trace": {
+            "trigger": [
+              {
+                "path": "trigger",
+                "timestamp": "2025-05-07T05:40:48.220183+00:00",
+                "changed_variables": {
+                  "this": {
+                    "entity_id": "automation.wand_gesture_down",
+                    "state": "on",
+                    "attributes": {
+                      "last_triggered": null,
+                      "mode": "single",
+                      "current": 0,
+                      "friendly_name": "Wand Gesture - Down"
+                    },
+                    "last_changed": "2025-05-07T05:39:47.563012+00:00",
+                    "last_reported": "2025-05-07T05:39:47.563012+00:00",
+                    "last_updated": "2025-05-07T05:39:47.563012+00:00",
+                    "context": {
+                      "id": "01JTMM3PQBYD0G50GBYZWXG6YM",
+                      "parent_id": null,
+                      "user_id": null
+                    }
+                  },
+                  "trigger": {
+                    "platform": null
+                  }
+                }
+              }
+            ],
+            "action/0": [
+              {
+                "path": "action/0",
+                "timestamp": "2025-05-07T05:40:48.220775+00:00",
+                "changed_variables": {
+                  "context": {
+                    "id": "01JTMM5HYVWHSHQWW1X0X5D426",
+                    "parent_id": "01JTMM5HYV4Q6RZ5K0Q81WT363",
+                    "user_id": null
+                  }
+                },
+                "result": {
+                  "params": {
+                    "domain": "light",
+                    "service": "turn_on",
+                    "service_data": {
+                      "brightness": 255,
+                      "color_name": "red",
+                      "entity_id": [
+                        "light.hue_color_lamp_1"
+                      ]
+                    },
+                    "target": {
+                      "entity_id": [
+                        "light.hue_color_lamp_1"
+                      ]
+                    }
+                  },
+                  "running_script": false
+                }
+              }
+            ]
+          },
+          "config": {
+            "alias": "Wand Gesture - Down",
+            "description": "Original gesture was 'up' \u2192 Reversed to 'down'",
+            "trigger": {
+              "platform": "event",
+              "event_type": "wand_gesture",
+              "event_data": {
+                "gesture": "down"
+              }
+            },
+            "action": [
+              {
+                "target": {
+                  "entity_id": "light.hue_color_lamp_1"
+                },
+                "data": {
+                  "brightness": 255,
+                  "color_name": "red"
+                },
+                "action": "light.turn_on"
+              }
+            ]
+          },
+          "blueprint_inputs": null,
+          "context": {
+            "id": "01JTMM5HYVWHSHQWW1X0X5D426",
+            "parent_id": "01JTMM5HYV4Q6RZ5K0Q81WT363",
+            "user_id": null
+          }
+        },
+        "short_dict": {
+          "last_step": "action/0",
+          "run_id": "32ae7078a32232ed60a7504d6ae46cbc",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T05:40:48.220044+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": null
+        }
+      },
+      {
+        "extended_dict": {
+          "last_step": "action/0",
+          "run_id": "58e59795a652b508c6e4cebf01e3d43f",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:25.689590+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'",
+          "trace": {
+            "trigger/0": [
+              {
+                "path": "trigger/0",
+                "timestamp": "2025-05-07T06:31:25.695534+00:00",
+                "changed_variables": {
+                  "this": {
+                    "entity_id": "automation.wand_gesture_down",
+                    "state": "on",
+                    "attributes": {
+                      "last_triggered": "2025-05-07T05:40:48.220304+00:00",
+                      "mode": "single",
+                      "current": 0,
+                      "friendly_name": "Wand Gesture - Down"
+                    },
+                    "last_changed": "2025-05-07T05:39:47.563012+00:00",
+                    "last_reported": "2025-05-07T05:40:48.274131+00:00",
+                    "last_updated": "2025-05-07T05:40:48.274131+00:00",
+                    "context": {
+                      "id": "01JTMM5HYVWHSHQWW1X0X5D426",
+                      "parent_id": "01JTMM5HYV4Q6RZ5K0Q81WT363",
+                      "user_id": null
+                    }
+                  },
+                  "trigger": {
+                    "id": "0",
+                    "idx": "0",
+                    "alias": null,
+                    "platform": "event",
+                    "event": {
+                      "event_type": "wand_gesture",
+                      "data": {
+                        "event_type": "wand_gesture",
+                        "gesture": "down"
+                      },
+                      "origin": "REMOTE",
+                      "time_fired": "2025-05-07T06:31:25.671965+00:00",
+                      "context": {
+                        "id": "01JTMQ2875X1XAHCD6SJCSF1NB",
+                        "parent_id": null,
+                        "user_id": "471e7c96ea894f5eb3dc63aa9fdcbd48"
+                      }
+                    },
+                    "description": "event 'wand_gesture'"
+                  }
+                }
+              }
+            ],
+            "action/0": [
+              {
+                "path": "action/0",
+                "timestamp": "2025-05-07T06:31:25.703328+00:00",
+                "changed_variables": {
+                  "context": {
+                    "id": "01JTMQ287NWXTQZGSP313K7SVA",
+                    "parent_id": "01JTMQ2875X1XAHCD6SJCSF1NB",
+                    "user_id": null
+                  }
+                },
+                "result": {
+                  "params": {
+                    "domain": "light",
+                    "service": "turn_on",
+                    "service_data": {
+                      "brightness": 255,
+                      "color_name": "red",
+                      "entity_id": [
+                        "light.hue_color_lamp_1"
+                      ]
+                    },
+                    "target": {
+                      "entity_id": [
+                        "light.hue_color_lamp_1"
+                      ]
+                    }
+                  },
+                  "running_script": false
+                }
+              }
+            ]
+          },
+          "config": {
+            "alias": "Wand Gesture - Down",
+            "description": "Original gesture was 'up' \u2192 Reversed to 'down'",
+            "trigger": {
+              "platform": "event",
+              "event_type": "wand_gesture",
+              "event_data": {
+                "gesture": "down"
+              }
+            },
+            "action": [
+              {
+                "target": {
+                  "entity_id": "light.hue_color_lamp_1"
+                },
+                "data": {
+                  "brightness": 255,
+                  "color_name": "red"
+                },
+                "action": "light.turn_on"
+              }
+            ]
+          },
+          "blueprint_inputs": null,
+          "context": {
+            "id": "01JTMQ287NWXTQZGSP313K7SVA",
+            "parent_id": "01JTMQ2875X1XAHCD6SJCSF1NB",
+            "user_id": null
+          }
+        },
+        "short_dict": {
+          "last_step": "action/0",
+          "run_id": "58e59795a652b508c6e4cebf01e3d43f",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:25.689590+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'"
+        }
+      },
+      {
+        "extended_dict": {
+          "last_step": "action/0",
+          "run_id": "db15d39cc487ebf3a6a02cc0cc45dd81",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:35.026173+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'",
+          "trace": {
+            "trigger/0": [
+              {
+                "path": "trigger/0",
+                "timestamp": "2025-05-07T06:31:35.026403+00:00",
+                "changed_variables": {
+                  "this": {
+                    "entity_id": "automation.wand_gesture_up",
+                    "state": "on",
+                    "attributes": {
+                      "last_triggered": "2025-05-07T05:40:24.598238+00:00",
+                      "mode": "single",
+                      "current": 0,
+                      "friendly_name": "Wand Gesture - Up"
+                    },
+                    "last_changed": "2025-05-07T05:39:47.565274+00:00",
+                    "last_reported": "2025-05-07T05:40:24.952590+00:00",
+                    "last_updated": "2025-05-07T05:40:24.952590+00:00",
+                    "context": {
+                      "id": "01JTMM4TVZ8HEAGBPMFQG40G2R",
+                      "parent_id": "01JTMM4TVRMA0GGHC97E9K2193",
+                      "user_id": null
+                    }
+                  },
+                  "trigger": {
+                    "id": "0",
+                    "idx": "0",
+                    "alias": null,
+                    "platform": "event",
+                    "event": {
+                      "event_type": "wand_gesture",
+                      "data": {
+                        "event_type": "wand_gesture",
+                        "gesture": "up"
+                      },
+                      "origin": "REMOTE",
+                      "time_fired": "2025-05-07T06:31:35.024910+00:00",
+                      "context": {
+                        "id": "01JTMQ2HBG4QT5QCA39260VARM",
+                        "parent_id": null,
+                        "user_id": "471e7c96ea894f5eb3dc63aa9fdcbd48"
+                      }
+                    },
+                    "description": "event 'wand_gesture'"
+                  }
+                }
+              }
+            ],
+            "action/0": [
+              {
+                "path": "action/0",
+                "timestamp": "2025-05-07T06:31:35.027023+00:00",
+                "changed_variables": {
+                  "context": {
+                    "id": "01JTMQ2HBJ5250CBSQKTSDNX30",
+                    "parent_id": "01JTMQ2HBG4QT5QCA39260VARM",
+                    "user_id": null
+                  }
+                },
+                "result": {
+                  "params": {
+                    "domain": "light",
+                    "service": "toggle",
+                    "service_data": {},
+                    "target": {
+                      "entity_id": [
+                        "light.hue_color_lamp_1",
+                        "light.hue_color_lamp_2"
+                      ]
+                    }
+                  },
+                  "running_script": false
+                }
+              }
+            ]
+          },
+          "config": {
+            "alias": "Wand Gesture - Up",
+            "description": "Original gesture was 'shake' \u2192 Reversed to 'up'",
+            "trigger": {
+              "platform": "event",
+              "event_type": "wand_gesture",
+              "event_data": {
+                "gesture": "up"
+              }
+            },
+            "action": [
+              {
+                "target": {
+                  "entity_id": [
+                    "light.hue_color_lamp_1",
+                    "light.hue_color_lamp_2"
+                  ]
+                },
+                "action": "light.toggle"
+              }
+            ]
+          },
+          "blueprint_inputs": null,
+          "context": {
+            "id": "01JTMQ2HBJ5250CBSQKTSDNX30",
+            "parent_id": "01JTMQ2HBG4QT5QCA39260VARM",
+            "user_id": null
+          }
+        },
+        "short_dict": {
+          "last_step": "action/0",
+          "run_id": "db15d39cc487ebf3a6a02cc0cc45dd81",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:35.026173+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'"
+        }
+      },
+      {
+        "extended_dict": {
+          "last_step": "action/0",
+          "run_id": "4aaec950093b4cea7ee7c8bbe693006e",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:43.962694+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'",
+          "trace": {
+            "trigger/0": [
+              {
+                "path": "trigger/0",
+                "timestamp": "2025-05-07T06:31:43.963108+00:00",
+                "changed_variables": {
+                  "this": {
+                    "entity_id": "automation.wand_gesture_still",
+                    "state": "on",
+                    "attributes": {
+                      "last_triggered": "2025-05-07T05:40:29.792205+00:00",
+                      "mode": "single",
+                      "current": 0,
+                      "friendly_name": "Wand Gesture - Still"
+                    },
+                    "last_changed": "2025-05-07T05:39:47.565785+00:00",
+                    "last_reported": "2025-05-07T05:40:29.856645+00:00",
+                    "last_updated": "2025-05-07T05:40:29.856645+00:00",
+                    "context": {
+                      "id": "01JTMM4ZYZG561S9JSTFDSH9NJ",
+                      "parent_id": "01JTMM4ZYYW5S3HFZ4PFK720ZP",
+                      "user_id": null
+                    }
+                  },
+                  "trigger": {
+                    "id": "0",
+                    "idx": "0",
+                    "alias": null,
+                    "platform": "event",
+                    "event": {
+                      "event_type": "wand_gesture",
+                      "data": {
+                        "event_type": "wand_gesture",
+                        "gesture": "still"
+                      },
+                      "origin": "REMOTE",
+                      "time_fired": "2025-05-07T06:31:43.961890+00:00",
+                      "context": {
+                        "id": "01JTMQ2T2S0A3N7BS8N5HDE7GV",
+                        "parent_id": null,
+                        "user_id": "471e7c96ea894f5eb3dc63aa9fdcbd48"
+                      }
+                    },
+                    "description": "event 'wand_gesture'"
+                  }
+                }
+              }
+            ],
+            "action/0": [
+              {
+                "path": "action/0",
+                "timestamp": "2025-05-07T06:31:43.963350+00:00",
+                "changed_variables": {
+                  "context": {
+                    "id": "01JTMQ2T2T2WTHV76RTGK9T1TK",
+                    "parent_id": "01JTMQ2T2S0A3N7BS8N5HDE7GV",
+                    "user_id": null
+                  }
+                },
+                "result": {
+                  "params": {
+                    "domain": "light",
+                    "service": "turn_off",
+                    "service_data": {},
+                    "target": {
+                      "entity_id": [
+                        "light.hue_color_lamp_1",
+                        "light.hue_color_lamp_2"
+                      ]
+                    }
+                  },
+                  "running_script": false
+                }
+              }
+            ]
+          },
+          "config": {
+            "alias": "Wand Gesture - Still",
+            "description": "Original gesture was 'still' \u2192 No reversal",
+            "trigger": {
+              "platform": "event",
+              "event_type": "wand_gesture",
+              "event_data": {
+                "gesture": "still"
+              }
+            },
+            "action": [
+              {
+                "target": {
+                  "entity_id": [
+                    "light.hue_color_lamp_1",
+                    "light.hue_color_lamp_2"
+                  ]
+                },
+                "action": "light.turn_off"
+              }
+            ]
+          },
+          "blueprint_inputs": null,
+          "context": {
+            "id": "01JTMQ2T2T2WTHV76RTGK9T1TK",
+            "parent_id": "01JTMQ2T2S0A3N7BS8N5HDE7GV",
+            "user_id": null
+          }
+        },
+        "short_dict": {
+          "last_step": "action/0",
+          "run_id": "4aaec950093b4cea7ee7c8bbe693006e",
+          "state": "running",
+          "script_execution": null,
+          "timestamp": {
+            "start": "2025-05-07T06:31:43.962694+00:00",
+            "finish": null
+          },
+          "domain": "automation",
+          "item_id": "None",
+          "trigger": "event 'wand_gesture'"
+        }
+      }
+    ]
+  }
+}

@@ -3,6 +3,14 @@
   "minor_version": 2,
   "key": "repairs.issue_registry",
   "data": {
-    "issues": []
+    "issues": [
+      {
+        "created": "2025-05-07T03:21:26.049890+00:00",
+        "dismissed_version": null,
+        "domain": "homeassistant",
+        "is_persistent": false,
+        "issue_id": "config_entry_only_hue"
+      }
+    ]
   }
 }

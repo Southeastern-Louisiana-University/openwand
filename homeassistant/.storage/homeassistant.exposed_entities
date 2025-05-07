@@ -32,6 +32,20 @@
             "should_expose": false
           }
         }
+      },
+      "automation.test_automation": {
+        "assistants": {
+          "conversation": {
+            "should_expose": false
+          }
+        }
+      },
+      "automation.wand_gesture_random_color_x": {
+        "assistants": {
+          "conversation": {
+            "should_expose": false
+          }
+        }
       }
     }
   }
