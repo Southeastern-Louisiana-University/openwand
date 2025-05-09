@@ -15,4 +15,6 @@ rest_command:
 
 # Philips Hue integration
 hue:
-  host: "192.168.1.180"
+  host: "192.168.1.100"
+
+  

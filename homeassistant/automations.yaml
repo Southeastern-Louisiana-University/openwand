@@ -1,5 +1,5 @@
-- alias: Wand Gesture - Down
-  description: Slowly dim lights to off
+- alias: Wand Gesture - Down (Candlelight)
+  description: Gentle candle flicker
   trigger:
     platform: event
     event_type: wand_gesture
@@ -9,118 +9,117 @@
   - service: light.turn_on
     target:
       entity_id:
-      - light.hue_color_lamp_1
       - light.hue_color_lamp_2
     data:
-      brightness: 0
-      transition: 5
+      rgb_color:
+      - 255
+      - 100
+      - 0
+      brightness: 90
+      transition: 1
+  - parallel:
+    - repeat:
+        count: 15
+        sequence:
+        - condition: state
+          entity_id: light.hue_color_lamp_2
+          state: 'on'
+        - service: light.turn_on
+          target:
+            entity_id:
+            - light.hue_color_lamp_2
+          data:
+            brightness: '{{ range(70, 110)|random }}'
+            transition: '{{ (0.1 + range(0,5)|random/10)|round(1) }}'
+        - delay: '00:00:0.5'
+  mode: parallel
   id: e30a360dac57451aae2920e6cecc07b5
-- alias: Wand Gesture - Up
-  description: Slowly dim lights to max brightness
+- id: aa7662f98aa9474a87b3d9911c4933a4
+  alias: Wand Gesture - Right (Random Color)
+  description: Sets random color
+  triggers:
+  - event_type: wand_gesture
+    event_data:
+      gesture: right
+    trigger: event
+  actions:
+  - target:
+      entity_id: automation.wand_gesture_down_candlelight
+    action: automation.turn_off
+    data:
+      stop_actions: true
+  - target:
+      entity_id:
+      - light.hue_color_lamp_2
+    data:
+      rgb_color: "{% set colors = [\n  [255,0,0], [0,0,255], [0,255,0],\n  [255,0,255],
+        [255,255,0], [0,255,255],\n  [255,165,0]\n] %} {{ colors|random }}\n"
+      brightness: 255
+      transition: 1
+    action: light.turn_on
+  mode: single
+- id: 08cdc3a5b92b4712bcd13efd75d0c652
+  alias: Wand Gesture - Up (Max Brightness)
+  description: Sets lights to maximum brightness
+  triggers:
+  - event_type: wand_gesture
+    event_data:
+      gesture: up
+    trigger: event
+  actions:
+  - target:
+      entity_id: automation.wand_gesture_down_candlelight
+    action: automation.turn_off
+    data:
+      stop_actions: true
+  - target:
+      entity_id:
+      - light.hue_color_lamp_2
+    data:
+      brightness: 255
+      transition: 2
+    action: light.turn_on
+  mode: single
+- alias: Wand Gesture - Still (Off)
+  description: Turns lights off smoothly
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
-      gesture: up
+      gesture: still
   action:
-  - service: light.turn_on
+  - service: automation.turn_off
+    target:
+      entity_id: automation.wand_gesture_down_candlelight
+  - service: light.turn_off
     target:
       entity_id:
-      - light.hue_color_lamp_1
       - light.hue_color_lamp_2
     data:
-      brightness: 255
-      transition: 5
-  id: 08cdc3a5b92b4712bcd13efd75d0c652
-- alias: Wand Gesture - Left
-  description: Change to purple with wave effect
+      transition: 2
+  mode: single
+  id: 1acdd4dd5ff14bb8bf079fe519271885
+- alias: Wand Gesture - Left (Purple)
+  description: Turns light purple
   trigger:
     platform: event
     event_type: wand_gesture
     event_data:
       gesture: left
   action:
+  - service: automation.turn_off
+    target:
+      entity_id: automation.wand_gesture_down_candlelight
   - service: light.turn_on
     target:
       entity_id:
-      - light.hue_color_lamp_1
       - light.hue_color_lamp_2
     data:
-      brightness: 180
       rgb_color:
-      - 128
+      - 150
       - 0
-      - 128
-      transition: 2
-  - delay: 00:00:02
-  - service: light.turn_on
-    target:
-      entity_id: light.hue_color_lamp_2
-    data:
-      brightness: 210
-      transition: 1
-  id: 9d997ef913ce40f9b62ba3f8d7eaf015
-- alias: Wand Gesture - Right
-  description: Change to red
-  trigger:
-    platform: event
-    event_type: wand_gesture
-    event_data:
-      gesture: right
-  action:
-  - service: light.turn_on
-    target:
-      entity_id:
-      - light.hue_color_lamp_1
-      - light.hue_color_lamp_2
-    data:
-      brightness: 200
-      rgb_color:
       - 255
-      - 0
-      - 0
-      transition: 2
-  id: aa7662f98aa9474a87b3d9911c4933a4
-- alias: "Wand Gesture - Still"
-  description: "Random color fade effect"
-  trigger:
-    platform: event
-    event_type: wand_gesture
-    event_data:
-      gesture: "still"
-  action:
-    - service: light.turn_on
-      target:
-        entity_id:
-          - light.hue_color_lamp_1
-          - light.hue_color_lamp_2
-      data:
-        brightness: 150
-        rgb_color: [255, 0, 0]
-        transition: 1
-    
-    - variables:
-        available_colors:
-          - [255, 0, 0]
-          - [0, 255, 0]
-          - [0, 0, 255]
-          - [255, 255, 0]
-          - [255, 0, 255]
-          - [0, 255, 255]
-          - [255, 165, 0]
-    
-    - repeat:
-        count: 20
-        sequence:
-          - service: light.turn_on
-            target:
-              entity_id:
-                - light.hue_color_lamp_1
-                - light.hue_color_lamp_2
-            data:
-              rgb_color: "{{ available_colors | random }}"
-              brightness: 150
-              transition: 3
-          - delay: "00:00:03"
-  mode: restart
-  id: 1acdd4dd5ff14bb8bf079fe519271885
+      brightness: 255
+      transition: 1
+  mode: single
+  id: wand_gesture_left_purple

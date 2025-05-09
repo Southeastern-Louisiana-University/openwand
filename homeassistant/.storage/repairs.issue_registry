@@ -10,6 +10,86 @@
         "domain": "homeassistant",
         "is_persistent": false,
         "issue_id": "config_entry_only_hue"
+      },
+      {
+        "created": "2025-05-08T17:40:04.146329+00:00",
+        "dismissed_version": null,
+        "domain": "automation",
+        "is_persistent": true,
+        "issue_id": "automation.wand_gesture_right_service_not_found_light.turn_on",
+        "breaks_in_ha_version": null,
+        "data": null,
+        "is_fixable": true,
+        "issue_domain": null,
+        "learn_more_url": null,
+        "severity": "error",
+        "translation_key": "service_not_found",
+        "translation_placeholders": {
+          "service": "light.turn_on",
+          "entity_id": "automation.wand_gesture_right",
+          "name": "Wand Gesture - Right (Random Color)",
+          "edit": "/config/automation/edit/aa7662f98aa9474a87b3d9911c4933a4"
+        }
+      },
+      {
+        "created": "2025-05-08T17:40:13.879144+00:00",
+        "dismissed_version": null,
+        "domain": "automation",
+        "is_persistent": true,
+        "issue_id": "automation.wand_gesture_still_service_not_found_light.turn_off",
+        "breaks_in_ha_version": null,
+        "data": null,
+        "is_fixable": true,
+        "issue_domain": null,
+        "learn_more_url": null,
+        "severity": "error",
+        "translation_key": "service_not_found",
+        "translation_placeholders": {
+          "service": "light.turn_off",
+          "entity_id": "automation.wand_gesture_still",
+          "name": "Wand Gesture - Still (Off)",
+          "edit": "/config/automation/edit/1acdd4dd5ff14bb8bf079fe519271885"
+        }
+      },
+      {
+        "created": "2025-05-08T17:51:51.155415+00:00",
+        "dismissed_version": null,
+        "domain": "automation",
+        "is_persistent": true,
+        "issue_id": "automation.wand_gesture_down_service_not_found_light.turn_on",
+        "breaks_in_ha_version": null,
+        "data": null,
+        "is_fixable": true,
+        "issue_domain": null,
+        "learn_more_url": null,
+        "severity": "error",
+        "translation_key": "service_not_found",
+        "translation_placeholders": {
+          "service": "light.turn_on",
+          "entity_id": "automation.wand_gesture_down",
+          "name": "Wand Gesture - Down (Candlelight)",
+          "edit": "/config/automation/edit/e30a360dac57451aae2920e6cecc07b5"
+        }
+      },
+      {
+        "created": "2025-05-08T17:54:16.833951+00:00",
+        "dismissed_version": null,
+        "domain": "automation",
+        "is_persistent": true,
+        "issue_id": "automation.wand_gesture_up_service_not_found_light.turn_on",
+        "breaks_in_ha_version": null,
+        "data": null,
+        "is_fixable": true,
+        "issue_domain": null,
+        "learn_more_url": null,
+        "severity": "error",
+        "translation_key": "service_not_found",
+        "translation_placeholders": {
+          "service": "light.turn_on",
+          "entity_id": "automation.wand_gesture_up",
+          "name": "Wand Gesture - Up (Max Brightness)",
+          "edit": "/config/automation/edit/08cdc3a5b92b4712bcd13efd75d0c652"
+        }
       }
     ]
   }

@@ -4,39 +4,44 @@
   "key": "core.restore_state",
   "data": [
     {
-      "state": {"entity_id":"person.seth_landry","state":"unknown","attributes":{"editable":true,"id":"seth_landry","device_trackers":[],"user_id":"471e7c96ea894f5eb3dc63aa9fdcbd48","friendly_name":"seth landry"},"last_changed":"2025-05-07T06:32:56.045382+00:00","last_reported":"2025-05-07T06:32:59.303244+00:00","last_updated":"2025-05-07T06:32:59.303244+00:00","context":{"id":"01JTMQ53N7YV3JD3JEQK2MG0J4","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"person.seth_landry","state":"unknown","attributes":{"editable":true,"id":"seth_landry","device_trackers":[],"user_id":"471e7c96ea894f5eb3dc63aa9fdcbd48","friendly_name":"seth landry"},"last_changed":"2025-05-08T17:45:53.002929+00:00","last_reported":"2025-05-08T17:46:14.477312+00:00","last_updated":"2025-05-08T17:46:14.477312+00:00","context":{"id":"01JTRG2K2D8B1A1SCJR1YCSPPH","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-05-07T06:32:56.636298+00:00","last_reported":"2025-05-07T06:32:56.636298+00:00","last_updated":"2025-05-07T06:32:56.636298+00:00","context":{"id":"01JTMQ511W0XFT3HXTA65RNC91","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"tts.google_translate_en_com","state":"unknown","attributes":{"friendly_name":"Google Translate en com"},"last_changed":"2025-05-08T17:45:53.477943+00:00","last_reported":"2025-05-08T17:45:53.477943+00:00","last_updated":"2025-05-08T17:45:53.477943+00:00","context":{"id":"01JTRG1YJ5QQS7Y6M6CEKJ2Y3Q","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"automation.wand_gesture_down","state":"on","attributes":{"id":"e30a360dac57451aae2920e6cecc07b5","last_triggered":"2025-05-07T07:28:13.253339+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Down"},"last_changed":"2025-05-07T07:21:39.846393+00:00","last_reported":"2025-05-07T07:28:13.374430+00:00","last_updated":"2025-05-07T07:28:13.374430+00:00","context":{"id":"01JTMTA7Y5PYAAMXV6VNQ3XZGP","parent_id":"01JTMTA7Y4D3V2R7BE1H5VAP58","user_id":null}},
+      "state": {"entity_id":"automation.wand_gesture_still","state":"on","attributes":{"id":"1acdd4dd5ff14bb8bf079fe519271885","last_triggered":"2025-05-08T22:28:39.711216+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Still (Off)"},"last_changed":"2025-05-08T18:50:11.212656+00:00","last_reported":"2025-05-08T22:28:39.810458+00:00","last_updated":"2025-05-08T22:28:39.810458+00:00","context":{"id":"01JTS07Q4WWZAE50YKWMS9YBHT","parent_id":"01JTS07Q4P8HK7ZGSH4Z4A6NQW","user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"automation.wand_gesture_up","state":"on","attributes":{"id":"08cdc3a5b92b4712bcd13efd75d0c652","last_triggered":"2025-05-07T07:28:04.617732+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Up"},"last_changed":"2025-05-07T07:21:39.847206+00:00","last_reported":"2025-05-07T07:28:04.917535+00:00","last_updated":"2025-05-07T07:28:04.917535+00:00","context":{"id":"01JTMT9ZG9QFT95CXR5CTPEPZG","parent_id":"01JTMT9ZG8RQ931VK03AZNN772","user_id":null}},
+      "state": {"entity_id":"automation.wand_gesture_left_purple","state":"on","attributes":{"id":"wand_gesture_left_purple","last_triggered":"2025-05-08T22:28:20.306464+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Left (Purple)"},"last_changed":"2025-05-08T18:50:11.213346+00:00","last_reported":"2025-05-08T22:28:20.357023+00:00","last_updated":"2025-05-08T22:28:20.357023+00:00","context":{"id":"01JTS0746HZTVSTWFCYT38K4KN","parent_id":"01JTS0746FK83G5SYJ6H1QQ285","user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"automation.wand_gesture_left","state":"on","attributes":{"id":"9d997ef913ce40f9b62ba3f8d7eaf015","last_triggered":"2025-05-07T07:28:31.003489+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Left"},"last_changed":"2025-05-07T07:21:39.847634+00:00","last_reported":"2025-05-07T07:28:33.177958+00:00","last_updated":"2025-05-07T07:28:33.177958+00:00","context":{"id":"01JTMTAS8VBCMENHEJVM17HR4P","parent_id":"01JTMTAS8T50VM6S4D64AGT27R","user_id":null}},
+      "state": {"entity_id":"automation.wand_gesture_down","state":"on","attributes":{"id":"e30a360dac57451aae2920e6cecc07b5","last_triggered":"2025-05-08T22:28:25.600139+00:00","mode":"parallel","current":0,"max":10,"friendly_name":"Wand Gesture - Down (Candlelight)"},"last_changed":"2025-05-08T21:22:37.087821+00:00","last_reported":"2025-05-08T22:28:34.098026+00:00","last_updated":"2025-05-08T22:28:34.098026+00:00","context":{"id":"01JTS07HNJPFX6GD53HEZNJSVR","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"automation.wand_gesture_right","state":"on","attributes":{"id":"aa7662f98aa9474a87b3d9911c4933a4","last_triggered":"2025-05-07T07:28:24.155883+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Right"},"last_changed":"2025-05-07T07:21:39.848251+00:00","last_reported":"2025-05-07T07:28:24.346705+00:00","last_updated":"2025-05-07T07:28:24.346705+00:00","context":{"id":"01JTMTAJJVHPX9MEJ99V81WX7G","parent_id":"01JTMTAJJT7GAMAWWMRCTJPQ9J","user_id":null}},
+      "state": {"entity_id":"automation.wand_gesture_right","state":"on","attributes":{"id":"aa7662f98aa9474a87b3d9911c4933a4","last_triggered":"2025-05-08T22:27:57.578737+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Right (Random Color)"},"last_changed":"2025-05-08T21:25:15.996628+00:00","last_reported":"2025-05-08T22:27:57.643430+00:00","last_updated":"2025-05-08T22:27:57.643430+00:00","context":{"id":"01JTS06E0875GR0Q3QECJRRHMG","parent_id":"01JTS06E04QBYNZWYNEQM6T3DQ","user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
     },
     {
-      "state": {"entity_id":"automation.wand_gesture_still","state":"on","attributes":{"id":"1acdd4dd5ff14bb8bf079fe519271885","last_triggered":"2025-05-07T07:28:36.746441+00:00","mode":"restart","current":0,"friendly_name":"Wand Gesture - Still"},"last_changed":"2025-05-07T07:26:55.694692+00:00","last_reported":"2025-05-07T07:29:41.696324+00:00","last_updated":"2025-05-07T07:29:41.696324+00:00","context":{"id":"01JTMTCYA089AZ24TJZGHMCPAH","parent_id":null,"user_id":null}},
+      "state": {"entity_id":"automation.wand_gesture_up","state":"on","attributes":{"id":"08cdc3a5b92b4712bcd13efd75d0c652","last_triggered":"2025-05-08T22:28:45.377049+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Up (Max Brightness)"},"last_changed":"2025-05-08T22:29:22.145838+00:00","last_reported":"2025-05-08T22:29:22.145838+00:00","last_updated":"2025-05-08T22:29:22.145838+00:00","context":{"id":"01JTS090K1RZ5VMN9GQEE3TB8M","parent_id":null,"user_id":null}},
       "extra_data": null,
-      "last_seen": "2025-05-07T07:35:25.945600+00:00"
+      "last_seen": "2025-05-08T22:32:17.632068+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_left","state":"on","attributes":{"id":"9d997ef913ce40f9b62ba3f8d7eaf015","last_triggered":"2025-05-08T01:51:21.975248+00:00","mode":"restart","current":0,"friendly_name":"Wand Gesture - Left (Purple Wave)"},"last_changed":"2025-05-08T17:45:53.204726+00:00","last_reported":"2025-05-08T17:45:53.204726+00:00","last_updated":"2025-05-08T17:45:53.204726+00:00","context":{"id":"01JTRG1Y9MA8N10CZFQA8QWT5M","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-08T17:51:31.491805+00:00"
     },
     {
       "state": {"entity_id":"automation.wand_gesture_random_color_x","state":"on","attributes":{"id":"wand_gesture_random_color_x","last_triggered":"2025-05-06T23:29:58.997010+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture: Random Color (X)"},"last_changed":"2025-05-07T04:36:47.303681+00:00","last_reported":"2025-05-07T04:36:47.303681+00:00","last_updated":"2025-05-07T04:36:47.303681+00:00","context":{"id":"01JTMGGB27TRVRHMTNNA9821P0","parent_id":null,"user_id":null}},
@@ -92,6 +97,21 @@
       "state": {"entity_id":"automation.wand_gesture_still_2","state":"on","attributes":{"id":"1746602118949","last_triggered":"2025-05-07T07:18:15.493722+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Still"},"last_changed":"2025-05-07T07:17:06.229114+00:00","last_reported":"2025-05-07T07:18:15.546831+00:00","last_updated":"2025-05-07T07:18:15.546831+00:00","context":{"id":"01JTMSR065TRDFHM4HYGRSFGY7","parent_id":null,"user_id":null}},
       "extra_data": null,
       "last_seen": "2025-05-07T07:18:19.278342+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_left_random_effect","state":"on","attributes":{"id":"5a8b3c7d9e6f4a2b9012d3e4f5a6b7c8","last_triggered":"2025-05-08T18:05:46.060733+00:00","mode":"single","current":0,"friendly_name":"Wand Gesture - Left (Random Effect)"},"last_changed":"2025-05-08T18:05:12.809388+00:00","last_reported":"2025-05-08T18:05:46.100790+00:00","last_updated":"2025-05-08T18:05:46.100790+00:00","context":{"id":"01JTRH6B6CCJ2D86B3N21EE5QJ","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-08T18:19:37.199151+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.update_last_gesture","state":"on","attributes":{"id":"update_last_gesture","last_triggered":"2025-05-08T18:21:26.111288+00:00","mode":"queued","current":0,"max":10,"friendly_name":"Update Last Gesture"},"last_changed":"2025-05-08T18:25:55.995060+00:00","last_reported":"2025-05-08T18:25:55.995060+00:00","last_updated":"2025-05-08T18:25:55.995060+00:00","context":{"id":"01JTRJB8RV2SWP46AVH4SH493T","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-08T18:31:23.967942+00:00"
+    },
+    {
+      "state": {"entity_id":"automation.wand_gesture_left_thunderstorm","state":"on","attributes":{"id":"wand_gesture_left_thunderstorm","last_triggered":"2025-05-08T18:27:32.396866+00:00","mode":"restart","current":0,"friendly_name":"Wand Gesture - Left (Thunderstorm)"},"last_changed":"2025-05-08T18:25:55.993858+00:00","last_reported":"2025-05-08T18:27:32.455285+00:00","last_updated":"2025-05-08T18:27:32.455285+00:00","context":{"id":"01JTRJE6XCGJ9PQW7X1CJM0NF9","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2025-05-08T18:31:23.966901+00:00"
     }
   ]
 }
